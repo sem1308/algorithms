@@ -25,37 +25,32 @@ public class Main_15683{
 		
 		int num = map[x][y];
 		if(num > 0 && num <= 5) {
-			// 설정
-			int[][][] camDir = camDirs[num-1];
-			for (int[][] dirs : camDir) {
-				boolean[][] visited = new boolean[N][M];
-				for(int[] dir : dirs) {
-					int nx = x + dir[0];
-					int ny = y + dir[1];
+			int[][] camDir = camDirs[num-1];
+			for (int[] dirs : camDir) {
+				List<int[]> visited = new ArrayList<>();
+				// 설정
+				for(int dir : dirs) {
+					int nx = x + moveDirs[dir][0];
+					int ny = y + moveDirs[dir][1];
 					while(nx >= 0 && nx != N && ny >= 0 && ny != M && map[nx][ny] != 6) {
 						if(map[nx][ny] == 0) {
-							visited[nx][ny] = true;
+							visited.add(new int[]{nx,ny});
 							map[nx][ny] = -1;
-							numSee++;
 						}
-						nx += dir[0];
-						ny += dir[1];
+						nx += moveDirs[dir][0];
+						ny += moveDirs[dir][1];
 					}
 				}
 				
+				numSee += visited.size();
+				
 				dfs(x,y+1);
 				
-				for(int[] dir : dirs) {
-					int nx = x + dir[0];
-					int ny = y + dir[1];
-					while(nx >= 0 && nx != N && ny >= 0 && ny != M && map[nx][ny] != 6) {
-						if(visited[nx][ny]) {
-							map[nx][ny] = 0;
-							numSee--;
-						}
-						nx += dir[0];
-						ny += dir[1];
-					}
+				numSee -= visited.size();
+
+				// 초기화
+				for(int[] coord : visited) {
+					map[coord[0]][coord[1]] = 0;
 				}
 			}
 		}else{
@@ -83,17 +78,12 @@ public class Main_15683{
 			}
 		}
 		
-		camDirs = new int[5][][]; // 카메라 번호 / 반복 횟수 / 방향 수 / 방향 정보 (x,y)
-		// 1 : 한 쪽 방향 -> {{0,1}},{{0,-1}},{{1,0}},{{-1,0}}
-		// 2 : 양 쪽 방향 -> {{0,1},{0,-1}},{{1,0},{-1,0}}
-		// 3 : 90도 방향 ->  {{0,1},{1,0}},{{0,1},{-1,0}},{{0,-1},{1,0}},{{0,-1},{-1,0}}
-		// 4 : 180도 방향 -> {{-1,0},{0,1},{1,0}},{{0,-1},{0,1},{-1,0}},{{0,1},{0,-1},{1,0}},{{1,0},{0,-1},{-1,0}}
-		// 5 : 전 방향 -> {{0,1},{0,-1},{1,0},{-1,0}}
-		camDirs[0] = new int[][]{0,1,2,3};
-		camDirs[1] = new int[][]{{{0,1},{0,-1}},{{1,0},{-1,0}}};
-		camDirs[2] = new int[][]{{{0,1},{1,0}},{{0,1},{-1,0}},{{0,-1},{1,0}},{{0,-1},{-1,0}}};
-		camDirs[3] = new int[][]{{{-1,0},{0,1},{1,0}},{{0,-1},{0,1},{-1,0}},{{0,1},{0,-1},{1,0}},{{1,0},{0,-1},{-1,0}}};
-		camDirs[4] = new int[][]{{{0,1},{0,-1},{1,0},{-1,0}}};
+		camDirs = new int[5][][]; // 카메라 번호 / 반복 횟수 / 방향 index (x,y)
+		camDirs[0] = new int[][]{{0},{1},{2},{3}};
+		camDirs[1] = new int[][]{{0,2},{1,3}};
+		camDirs[2] = new int[][]{{0,1},{1,2},{2,3},{3,0}};
+		camDirs[3] = new int[][]{{0,1,2},{1,2,3},{2,3,0},{3,0,1}};
+		camDirs[4] = new int[][]{{0,1,2,3}};
 		
 		answer = numZeros;
 		dfs(0,0);
