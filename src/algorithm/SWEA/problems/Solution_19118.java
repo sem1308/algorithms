@@ -1,4 +1,5 @@
-package SWEA;
+package algorithm.SWEA.problems;
+
 
 import java.util.*;
 import java.io.*;

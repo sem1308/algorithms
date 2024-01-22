@@ -1,4 +1,4 @@
-package SWEA;
+package algorithm.SWEA.problems;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
