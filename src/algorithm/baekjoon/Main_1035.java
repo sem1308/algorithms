@@ -88,7 +88,7 @@ public class Main_1035 {
         	// A* 알고리즘
         	// 각 조각(*)에서 움직였을 때 최소 거리를 좁힐 수 있는 조각을 선정하여 움직임
 
-        	int maxGap = 0;
+        	int maxGap = 1;
         	List<int[]> temp = new ArrayList<>();
         	for (int i = 0; i < numPiece; i++) {
         		int x = coords[i][0];
@@ -134,10 +134,10 @@ public class Main_1035 {
         	
         	for (int i = 0; i < temp.size(); i++) {
         		int[][] copyCoords = clone(coords);
-        		int[] ixyd = temp.get(i);
+        		int[] ixy = temp.get(i);
 
-        		copyCoords[ixyd[0]][0] = ixyd[1];
-        		copyCoords[ixyd[0]][1] = ixyd[2];
+        		copyCoords[ixy[0]][0] = ixy[1];
+        		copyCoords[ixy[0]][1] = ixy[2];
         		
                 q.add(new Info(copyCoords,cnt+1));
 			}

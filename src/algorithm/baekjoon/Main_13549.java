@@ -20,11 +20,15 @@ public class Main_13549 {
         int answer = 0;
         int MAX_LOC = 100000;
 
-        boolean[] visited = new boolean[MAX_LOC+1];
+        int[] dists = new int[MAX_LOC+1];
+        for (int i = 0; i < dists.length; i++) {
+        	dists[i] = MAX_LOC;
+		}
 
         if(N < K){
             Deque<int[]> q = new ArrayDeque<>();
             q.add(new int[]{N,0});
+            dists[N] = 0;
 
             while(!q.isEmpty()){
                 int[] info = q.poll();
@@ -34,19 +38,27 @@ public class Main_13549 {
                 if(idx == K){
                     answer = cnt;
                     break;
-                }
-
-                if(visited[idx]) continue;
-                visited[idx] = true;
-
+                }                
+                
+                int ncnt = cnt+1;
+                
                 int rightIdx = idx+1;
-                if(rightIdx <= MAX_LOC && !visited[rightIdx]) q.add(new int[]{rightIdx,cnt+1});
+                if(rightIdx <= MAX_LOC && dists[rightIdx] == MAX_LOC) {
+                	dists[rightIdx] = ncnt;
+                	q.add(new int[]{rightIdx,ncnt});
+                } 
 
                 int leftIdx = idx-1;
-                if(leftIdx >= 0 && !visited[leftIdx]) q.add(new int[]{leftIdx,cnt+1});
+                if(leftIdx >= 0 && dists[leftIdx] == MAX_LOC) {
+                	dists[leftIdx] = ncnt;
+                	q.add(new int[]{leftIdx,ncnt});
+                }
 
                 int teleportIdx = idx * 2;
-                if(teleportIdx <= MAX_LOC && !visited[teleportIdx]) q.addFirst(new int[]{teleportIdx,cnt});
+                if(teleportIdx <= MAX_LOC && dists[teleportIdx] > cnt) {
+                	dists[teleportIdx] = cnt;
+                	q.addFirst(new int[]{teleportIdx,cnt});
+                }
             }
         }else{
             answer = N - K;
