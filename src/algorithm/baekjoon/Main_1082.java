@@ -3,44 +3,53 @@ package algorithm.baekjoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main_1082 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        StringTokenizer tokenizer = new StringTokenizer(br.readLine());
-        
-        int X,Y,D,T;
-        
-        X = Integer.parseInt(tokenizer.nextToken());
-        Y = Integer.parseInt(tokenizer.nextToken());
-        D = Integer.parseInt(tokenizer.nextToken());
-        T = Integer.parseInt(tokenizer.nextToken());
-        
-        /*
-			1. 걸어서 갈 수 있는 시간(거리) (dist) 구함
-			2. 점프를 n번 해서 갈 수 있는 최소 거리 중 최솟값 구함
-			    - n*D >= dist --> n*T
-			    - n*D < dist --> n*T + (dist - n*D)
-			       - 최대 n = dist / D
-        */
-        
-        double dist = Math.sqrt(Math.pow(X, 2)+Math.pow(Y, 2));
+        int N = Integer.parseInt(br.readLine());
 
-        int n = (int)(dist / D);
-        
-        double t1, t2;
-        if(n == 0) {
-            t1 = 2*T;
-            t2 = T + D - dist;
-        }else {
-            t1 = (n+1)*T;
-            t2 = n*(T-D) + dist;
+        int[] P = new int[N];
+
+        StringTokenizer tokenizer = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++) {
+            P[i] = Integer.parseInt(tokenizer.nextToken());
         }
-        
-        double answer = Math.min(dist, Math.min(t1,t2));
-        
-        System.out.println(answer);
+
+        int M = Integer.parseInt(br.readLine());
+
+        // dp[m] : m원으로 만들 수 있는 최대 숫자
+        // dp[m] = max(k+dp[i-P[k]]);
+        // k+dp[i-P[k]]는 string
+        // 길이 비교 후 string 비교
+
+        String[] dp  = new String[M+1];
+        Arrays.fill(dp,"");
+
+        List<String> nums = new ArrayList<>();
+        for (int i = 0; i <= M; i++) {
+            for (int k = 0; k < N; k++) {
+                int imp = i-P[k];
+                if(imp >= 0) nums.add(k+dp[imp]);
+            }
+
+            nums.sort((a, b) -> {
+                int lenA = a.length();
+                int lenB = b.length();
+                if (lenA == lenB) return b.compareTo(a);
+                return lenB - lenA;
+            });
+
+            if(i == M){
+                String num = nums.get(0);
+                dp[i] = num.charAt(0)=='0' ? (nums.size()==1 ? "0" : nums.get(1)) : num;
+            }else if(!nums.isEmpty()){
+                dp[i] = nums.get(0);
+                nums.clear();
+            }
+        }
+        System.out.println(dp[M]);
     }
 }
