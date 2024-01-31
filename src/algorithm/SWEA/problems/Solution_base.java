@@ -4,7 +4,7 @@ package algorithm.SWEA.problems;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-public class Solution
+public class Solution_base
 {
     public static void main(String args[]) throws Exception
     {
