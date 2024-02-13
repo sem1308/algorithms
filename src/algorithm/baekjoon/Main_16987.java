@@ -15,22 +15,22 @@ public class Main_16987{
 			return;
 		}
 
-		if(S[idx] > 0) {
-			boolean allBroken = true;
-			int ncount;
+		if(S[idx] > 0 && count < N-1) {
 			for (int i = 0; i < N; i++) {
 				if(S[i] <= 0 || i == idx) continue;
-				allBroken = false;
-				ncount = count;
+				
 				S[idx] -= W[i];
 				S[i] -= W[idx];
-				if(S[idx] <= 0) ncount++;
-				if(S[i] <= 0) ncount++;
-				solve(idx+1, ncount);
+				if(S[idx] <= 0) count++;
+				if(S[i] <= 0) count++;
+				
+				solve(idx+1, count);
+
+				if(S[idx] <= 0) count--;
+				if(S[i] <= 0) count--;
 				S[idx] += W[i];
 				S[i] += W[idx];
 			}
-			if(allBroken) solve(idx+1, count);
 		} else {
 			solve(idx+1, count);
 		}
