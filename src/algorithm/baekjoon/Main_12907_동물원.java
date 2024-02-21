@@ -34,8 +34,6 @@ public class Main_12907_동물원 {
         long maxCatBit = 0;
         long maxRabbitBit = 0;
         
-        boolean isValid = true; 
-        
         for (int i = 0; i < N; i++) {
         	int n = Integer.parseInt(tokenizer.nextToken());
         	long bitN = 1L << n;
@@ -43,8 +41,8 @@ public class Main_12907_동물원 {
             	// 이미 cat에 마스킹 된 경우
         		if((rabbit & bitN) == bitN) {
                 	// 이미 rabbit에 마스킹 된 경우
-        			isValid = false;
-        			break;
+        			System.out.println("0");
+        			return;
         		}else {
         			rabbit |= bitN;
         			maxRabbitBit = Math.max(maxRabbitBit, bitN);
@@ -55,19 +53,10 @@ public class Main_12907_동물원 {
         	}
         }
         
-        long result = 0;
-        
-        if(isValid && cat == (maxCatBit << 1)-1 && (maxRabbitBit == 0 || rabbit == (maxRabbitBit << 1)-1)) {
-        	if(maxRabbitBit == 0) {
-        		result = 2;
-        	}else {
-            	result = maxRabbitBit << 1;
-            	if(maxCatBit != maxRabbitBit) {
-            		result <<= 1;
-            	}
-        	}
+        if(cat == (maxCatBit << 1)-1 && (maxRabbitBit == 0 || rabbit == (maxRabbitBit << 1)-1)) {
+        	System.out.println(maxRabbitBit == 0 ? 2 : (maxCatBit != maxRabbitBit ? maxRabbitBit << 2 : maxRabbitBit << 1));
+        }else {
+        	System.out.println("0");
         }
-
-        System.out.println(result);
     }
 }

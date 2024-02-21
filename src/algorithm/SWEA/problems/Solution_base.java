@@ -11,6 +11,12 @@ public class Solution_base
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int T;
         T=Integer.parseInt(br.readLine());
+        
+        
+        
+        for (int t = 0; t < T; t++) {
+			
+		}
 
     }
 }
