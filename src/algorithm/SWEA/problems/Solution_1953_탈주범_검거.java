@@ -32,7 +32,7 @@ public class Solution_1953_탈주범_검거
         StringTokenizer tokens;
         
         // 하, 좌, 우, 상
-        int[][] dirs = {{1,0},{0,1},{0,-1},{-1,0}};
+        int[][] dirs = {{1,0},{0,-1},{0,1},{-1,0}};
         
         int[][] tunnerDirs = {
         		{},
@@ -44,6 +44,8 @@ public class Solution_1953_탈주범_검거
         		{1,0},
         		{1,3}
         };
+        
+        StringBuilder sb = new StringBuilder();
         
         for (int t = 0; t < T; t++) {
         	tokens = new StringTokenizer(br.readLine());
@@ -89,23 +91,17 @@ public class Solution_1953_탈주범_검거
 					
 					int nextNum = map[nx][ny];
 					
-					boolean isValid = false;
-					
 					for (int nextDir : tunnerDirs[nextNum]) {
-						if(4-dir == nextDir) {
-							isValid = true;
+						if(3-dir == nextDir) {
+							visited[nx][ny] = true;
+							q.add(new Coord(nx,ny,coord.cnt+1));
 							break;
 						}
-					}
-					
-					if(isValid) {
-						visited[nx][ny] = true;
-						q.add(new Coord(nx,ny,coord.cnt+1));
 					}
 				}
 			}
 			
-			System.out.println(answer);
+			sb.append('#').append(t).append(' ').append(answer).append('\n');
 		}
     }
 }
