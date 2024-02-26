@@ -94,7 +94,12 @@ class Solution_동아리실_관리하기
 				}
 			}
 			
-			sb.append("#").append(test_case).append(" ").append().append("\n");
+			int answer = 0;
+			for (int i = 1; i < 16; i++) {
+				answer += dp[0][i];
+			}
+			
+			sb.append("#").append(test_case).append(" ").append(answer).append("\n");
 		}
 		
 		System.out.println(sb.toString());
