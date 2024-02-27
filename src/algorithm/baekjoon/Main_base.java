@@ -8,7 +8,7 @@ public class Main_base{
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
-		StringTokenizer tokenizer = new StringTokenizer(br.readLine());
+		StringTokenizer tokens;
 	}
 
 }
