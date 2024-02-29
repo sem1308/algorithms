@@ -11,9 +11,9 @@ public class Solution_2477_차량정비소
     static class Customer{
         int num;
         int numA; // 접수 창구 번호
-        Customer (int num, int numA){
+        int endTime;
+        Customer (int num){
             this.num = num;
-            this.numA = numA;
         }
     }
 
@@ -72,14 +72,8 @@ public class Solution_2477_차량정비소
 
             int[][] sum = new int[N+1][M+1]; // 정비, 접수 창구 고객 번호 합
 
-            Customer[] cusA = new Customer[N+1]; // 접수 창구 고객 번호
-            Customer[] cusB = new Customer[M+1]; // 정비 창구 고객 번호
-
-            int[] endTimeA = new int[N+1]; // 접수 창구 끝나는 시간
-            int[] endTimeB = new int[M+1]; // 정비 창구 끝나는 시간
-
-            Arrays.fill(endTimeA,-1);
-            Arrays.fill(endTimeB,-1);
+            Customer[] cusA = new Customer[N+1]; // 접수 창구 고객 정보
+            Customer[] cusB = new Customer[M+1]; // 정비 창구 고객 정보
 
             Queue<Customer> qA = new ArrayDeque<>();
             Queue<Customer> qB = new ArrayDeque<>();
@@ -93,17 +87,16 @@ public class Solution_2477_차량정비소
             int tk = 0;
             while(numComplete < K){
                 // 기다리는 사람 리스트에 추가
-                while(tk == arriveTime && cusNum != K+1){
-                    qA.add(new Customer(cusNum++,-1));
-                    if(cusNum != K+1){
-                        arriveTime = Integer.parseInt(tokens.nextToken());
-                    }
+                while(tk == arriveTime){
+                    qA.add(new Customer(cusNum++));
+                    if(!tokens.hasMoreTokens()) break;
+                    arriveTime = Integer.parseInt(tokens.nextToken());
                 }
 
                 // 접수 창구 처리
                 for (int i = 1; i <= N; i++) {
                     // 지금 시간이 끝나는 시간인 경우
-                    if(endTimeA[i] == tk){
+                    if(cusA[i] != null && cusA[i].endTime == tk){
                         Customer cus = cusA[i];
 
                         // 정비 창구 기다리는 곳에 추가
@@ -116,8 +109,7 @@ public class Solution_2477_차량정비소
                     if(cusA[i] == null && !qA.isEmpty()){
                         Customer cus = qA.poll(); // 기다리는 사람 가져오기
 
-                        endTimeA[i] = tk + ptA[i]; // 끝나는 시간 갱신
-
+                        cus.endTime = tk + ptA[i]; // 끝나는 시간
                         cus.numA = i; // 고객 접수 창고 번호 갱신
                         cusA[i] = cus; // 현재 접수 창고에 있는 고객 번호 갱신
                     }
@@ -126,7 +118,7 @@ public class Solution_2477_차량정비소
                 // 정비 창구 처리
                 for (int i = 1; i <= M; i++) {
                     // 지금 시간이 정비가 끝나는 시간인 경우
-                    if(endTimeB[i] == tk){
+                    if(cusB[i] != null && cusB[i].endTime == tk){
                         Customer cus = cusB[i];
 
                         sum[cus.numA][i] += cus.num;
@@ -140,8 +132,7 @@ public class Solution_2477_차량정비소
                     if(cusB[i] == null && !qB.isEmpty()){
                         Customer cus = qB.poll(); // 기다리는 사람 가져오기
 
-                        endTimeB[i] = tk + ptB[i]; // 끝나는 시간 갱신
-
+                        cus.endTime = tk + ptB[i]; // 끝나는 시간
                         cusB[i] = cus; // 현재 접수 창고에 있는 고객 번호 갱신
                     }
                 }

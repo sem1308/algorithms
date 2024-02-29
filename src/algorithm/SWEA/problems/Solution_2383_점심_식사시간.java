@@ -38,6 +38,8 @@ public class Solution_2383_점심_식사시간
 
 				Arrays.sort(stair);
 				
+				if(stair[size-1] >= answer) return;
+				
 				int numP = 0; // 계단 다 내려간 사람 수
 				int flowTime = 0; // 흐른 시간 (분)
 				int pIdx = 0; // 기다리는 사람 idx

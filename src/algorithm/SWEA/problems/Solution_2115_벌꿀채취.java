@@ -1,9 +1,8 @@
 package algorithm.SWEA.problems;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
-
 
 public class Solution_2115_벌꿀채취
 {
@@ -12,17 +11,24 @@ public class Solution_2115_벌꿀채취
     static StringBuilder sb = new StringBuilder();
     static int[][] maxVal; // 2번째 사람이 i,j에서 채취했을 때의 최대 값
 
-    public static void comb(int idx, int cnt, int cost, int val, int x, int y){
-        if(cost > C) return;
+    /*
+        x,y에서 오른쪽으로 M개 벌꿀을 남을 때 최대로 담을 수 있는 벌꿀 양 저장
+        cnt : 처리한 벌꿀 개수
+        cost : 수확한 벌꿀 양
+        val : 수익
+        sx, sy : 시작 벌꿀 위치
+    */
+    public static void comb(int cnt, int cost, int val, int sx, int sy){
+        if(cost > C) return; // 최대 벌꿀 양을 초과한다면? return
 
-        maxVal[x][y] = Math.max(maxVal[x][y], val);
+        maxVal[sx][sy] = Math.max(maxVal[sx][sy], val); // val : 수익 
 
         if(cnt == M) return;
 
         // 포함 O
-        comb(idx+1,cnt+1,cost, val, x, y);
+        comb(cnt+1,cost, val, sx, sy);
         // 포함 X
-        comb(idx+1,cnt+1,cost+map[x][y+idx], val+map[x][y+idx]*map[x][y+idx], x, y);
+        comb(cnt+1,cost+map[sx][sy+cnt], val+map[sx][sy+cnt]*map[sx][sy+cnt], sx, sy);
     }
 
     public static void main(String args[]) throws Exception
@@ -54,6 +60,7 @@ public class Solution_2115_벌꿀채취
 
             map = new int[N][N];
 
+            // 벌꿀 정보 저장
             for (int i = 0; i < N; i++) {
                 tokens = new StringTokenizer(br.readLine());
                 for (int j = 0; j < N; j++) {
@@ -61,12 +68,12 @@ public class Solution_2115_벌꿀채취
                 }
             }
 
-            maxVal = new int[N][N-M+1];
+            maxVal = new int[N][N-M+1]; // x, y에서 오른쪽으로 M만큼 벌통을 놓았을 때 가능한 최대 채취 양
 
             // 가능한 최대 채취 양 저장
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < N-M+1; j++) {
-                    comb(0,0,0,0,i,j);
+                    comb(0,0,0,i,j);
                 }
             }
 

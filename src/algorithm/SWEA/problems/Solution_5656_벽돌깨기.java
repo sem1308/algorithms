@@ -37,8 +37,6 @@ public class Solution_5656_벽돌깨기
 	public static void breaking(int w, int h, List<Block>[] blocks) {
 		Block b = blocks[w].get(h);
 		
-//		System.out.println(w + " " + h + " : " + b.num);
-		
 		if(b.isBroken) return;
 		
 		b.isBroken = true;

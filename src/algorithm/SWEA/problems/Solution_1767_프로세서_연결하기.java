@@ -63,13 +63,13 @@ class Solution_1767_프로세서_연결하기
         T = Integer.parseInt(br.readLine());
         
         StringTokenizer tokens;
- 
+
+        cell = new int[12][2];
         for(int test_case = 1; test_case <= T; test_case++)
         {
             answer = 0;
             N = Integer.parseInt(br.readLine());
             map = new int[N][N]; 
-            cell = new int[12][2];
             maxCell=0;
             curMaxCell = 0;
             for(int i=0; i<N; i++){

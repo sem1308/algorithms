@@ -32,7 +32,6 @@ public class Solution_2112_보호필름
 						contCnt = 1;
 						prev = cur;
 					}
-					
 					if(contCnt == K) {
 						isValid = true;
 						break;
