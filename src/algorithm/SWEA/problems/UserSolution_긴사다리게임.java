@@ -1,11 +1,10 @@
 package algorithm.SWEA.problems;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
 class UserSolution_긴사다리게임
 {
-	
-	
 	/*
 	 * 각 세로선 마다 가로줄 리스트 생성
 	 * 
@@ -13,8 +12,8 @@ class UserSolution_긴사다리게임
 	
 	class Line{
 		int x, y; // 연결된 x, y축 번호 x -> x+1
-		Line prevLeft, prevRight; // 왼쪽, 오른쪽으로 왔을 때 연결된 가로줄
-		Line nextLeft, nextRight; // 왼쪽, 오른쪽으로 갔을 때 연결된 가로줄
+		Line fromLeft, fromRight; // 왼쪽, 오른쪽으로 왔을 때 연결된 가로줄
+		Line toLeft, toRight; // 왼쪽, 오른쪽으로 갔을 때 연결된 가로줄
 		
 		Line prev, next;
 		
@@ -25,42 +24,38 @@ class UserSolution_긴사다리게임
 	}
 	
 	Line[] lines = new Line[101];
+	int maxY = 1_000_000_000;
 	
 	public void init()
 	{
 		Arrays.fill(lines, null);
 	}
 	
-	public Line getLine(int mX, Line newLine) {
-		if(lines[mX] == null) {
-			lines[mX] = newLine;
-			return lines[mX];
-		}else {
-			Line line = lines[mX];
-			while(line.y < newLine.y && line.next != null) {
+	public Line getLine(int mX, int mY) {
+		Line line = lines[mX];
+		if(line != null) {
+			while(line.y < mY && line.next != null) {
 				line = line.next;
 			}
-			
-			return line;
-			
-//			if(line.next == null) {
-//				// 맨 마지막에 설치해야 할 때
-//				line.next = newLine;
-//				newLine.prev = line;
-//			}else if(line == lines[mX]) {
-//				// 처음에 설치해야 할 때
-//				newLine.next = line;
-//				line.prev = newLine;
-//				lines[mX] = newLine;
-//			}else {
-//				// 중간에 설치해야 할 때
-//				newLine.prev = line.prev;
-//				newLine.next = line;
-//				
-//				line.prev.next = newLine;
-//				line.prev = newLine;
-//			}
 		}
+		return line;
+//		if(line.next == null) {
+//			// 맨 마지막에 설치해야 할 때
+//			line.next = newLine;
+//			newLine.prev = line;
+//		}else if(line == lines[mX]) {
+//			// 처음에 설치해야 할 때
+//			newLine.next = line;
+//			line.prev = newLine;
+//			lines[mX] = newLine;
+//		}else {
+//			// 중간에 설치해야 할 때
+//			newLine.prev = line.prev;
+//			newLine.next = line;
+//			
+//			line.prev.next = newLine;
+//			line.prev = newLine;
+//		}
 	}
 
 	public void add(int mX, int mY)
@@ -69,8 +64,15 @@ class UserSolution_긴사다리게임
 		// 200,000 이하
 		Line newLine = new Line(mX,mY);
 		
-		Line line1 = getLine(mX,newLine);
-		Line line2 = getLine(mX+1,newLine);
+		Line linel = getLine(mX-1,mY);
+		Line linec = getLine(mX,mY);
+		Line liner = getLine(mX+1,mY);
+		
+		
+		
+		
+		
+		
 	}
 
 	public void remove(int mX, int mY)
@@ -103,18 +105,7 @@ class UserSolution_긴사다리게임
 		Line line = lines[mID];
 		
 		int cnt = 0;
-		int curX = mID;
-		while(line != null) {
-			if(line.left == curX) {
-				
-			}else {
-				
-			}
-			
-			
-			cnt++;
-		}
-		
+
 		return cnt;
 	}
 
