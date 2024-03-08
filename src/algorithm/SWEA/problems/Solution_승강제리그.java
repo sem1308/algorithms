@@ -47,7 +47,7 @@ class Solution_승강제리그 {
     public static void main(String[] args) throws Exception {
         int T, MARK;
 
-        // System.setIn(new java.io.FileInputStream("res/sample_input.txt"));
+        System.setIn(new java.io.FileInputStream("res/sample_input_승강제리그.txt"));
         sc = new Scanner(System.in);
         T = sc.nextInt();
         MARK = sc.nextInt();

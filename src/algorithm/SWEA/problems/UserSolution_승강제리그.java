@@ -47,10 +47,9 @@ class UserSolution_승강제리그 {
 	
 	int L;
 	int M;
-	int mid;
 	
 	void addPlayer(Player np, int l, Player p) {
-		while(np != null && np.ability >= p.ability) {
+		while(np != null && (np.ability > p.ability || (np.ability == p.ability && np.id < p.id))) {
 			np = np.next;
 		}
 		
@@ -60,11 +59,13 @@ class UserSolution_승강제리그 {
 			pTails[l].next = p;
 			p.prev = pTails[l];
 			pTails[l] = p;
+			p.next = null;
 		}else if(np.prev == null) {
 			// 맨 앞 삽입
 			pHeads[l].prev = p;
 			p.next = pHeads[l];
 			pHeads[l] = p;
+			p.prev = null;
 		}else {
 			p.next = np;
 			p.prev = np.prev;
@@ -90,9 +91,10 @@ class UserSolution_승강제리그 {
     	pHeads = new Player[L];
     	pMids = new Player[L];
     	pTails = new Player[L];
-    	
+    	 
     	M = N / L;
-    	mid = M/2;
+    	this.L = L;
+    	int mid = M/2;
     	int curId = 0;
     	for (int i = 0; i < L; i++) {
     		for (int j = 0; j < M; j++) {
@@ -106,30 +108,129 @@ class UserSolution_승강제리그 {
 			}
     		// mid 구하기
     		pMids[i] = getPlayer(pHeads[i],mid);
+//    		print(pHeads[i]);
 //    		print(pMids[i]);
 //    		print(pTails[i]);
 		}
+//    	System.out.println();
     }
 
     int move() {
     	// <= 500
     	
-    	// 가운데 리그
+    	Player[] hs = new Player[L-1];
+    	Player[] ls = new Player[L-1];
+    	
+    	int res = 0;
     	for (int i = 0; i < L-1; i++) {
-    		// i , i+1 바꾸기
+    		ls[i] = pTails[i];
+    		hs[i] = pHeads[i+1];
     		
+    		res += (hs[i].id + ls[i].id);
     		
+    		pTails[i] = pTails[i].prev;
+    		pTails[i].next = null;
+    		pHeads[i+1] = pHeads[i+1].next;
+    		pHeads[i+1].prev = null;
+    	}
+    	
+    	int[] diff = new int[L];
+    	diff[0] = -1;
+    	diff[L-1] = 1;
+    	
+    	for (int i = 0; i < L-1; i++) {
+			if(pMids[i].ability < hs[i].ability || (pMids[i].ability == hs[i].ability && pMids[i].id > hs[i].id)) {
+				addPlayer(pHeads[i],i,hs[i]);
+				diff[i]--;
+			}else {
+				addPlayer(pMids[i],i,hs[i]);
+				diff[i]++;
+			}
     		
+			if(pMids[i+1].ability < ls[i].ability || (pMids[i+1].ability == ls[i].ability && pMids[i+1].id > ls[i].id)) {
+				addPlayer(pHeads[i+1],i+1,ls[i]);
+				diff[i+1]--;
+			}else {
+				addPlayer(pMids[i+1],i+1,ls[i]);
+				diff[i+1]++;
+			}
 		}
     	
+    	for (int i = 0; i < L; i++) {
+			if(diff[i] < 0) {
+				pMids[i] = pMids[i].prev;
+			}else if(diff[i] > 0) {
+				pMids[i] = pMids[i].next;
+			}
+			
+//			print(pHeads[i]);
+//			print(pMids[i]);
+		}
     	
-        return 0;
+//    	System.out.println(res);
+    	
+        return res;
     }
 
     int trade() {
     	// <= 1000
+    	Player[] ms = new Player[L-1];
+    	Player[] hs = new Player[L-1];
     	
+    	int res = 0;
+    	for (int i = 0; i < L-1; i++) {
+    		ms[i] = pMids[i];
+    		hs[i] = pHeads[i+1];
+    		
+    		res += (hs[i].id + ms[i].id);
+    		
+    		if(pMids[i].prev == null) {
+    			pHeads[i] = pMids[i].next;
+    		}else {
+        		pMids[i].prev.next = pMids[i].next;    			
+    		}
+    		pMids[i].next.prev = pMids[i].prev;
+    		pMids[i] = pMids[i].next;
+    		
+    		pHeads[i+1] = pHeads[i+1].next;
+    		pHeads[i+1].prev = null;
+    	}
     	
-        return 0;
+    	int[] diff = new int[L];
+    	diff[0] = -1;
+    	diff[L-1] = 1;
+    	
+    	for (int i = 0; i < L-1; i++) {
+			if(pMids[i].ability < hs[i].ability || (pMids[i].ability == hs[i].ability && pMids[i].id > hs[i].id)) {
+				addPlayer(pHeads[i],i,hs[i]);
+				diff[i]--;
+			}else {
+				addPlayer(pMids[i],i,hs[i]);
+				diff[i]++;
+			}
+    		
+			if(pMids[i+1].ability < ms[i].ability || (pMids[i+1].ability == ms[i].ability && pMids[i+1].id > ms[i].id)) {
+				addPlayer(pHeads[i+1],i+1,ms[i]);
+				diff[i+1]--;
+			}else {
+				addPlayer(pMids[i+1],i+1,ms[i]);
+				diff[i+1]++;
+			}
+		}
+    	
+    	for (int i = 0; i < L; i++) {
+			if(diff[i] < 0) {
+				pMids[i] = pMids[i].prev;
+			}else if(diff[i] > 0) {
+				pMids[i] = pMids[i].next;
+			}
+			
+//			print(pHeads[i]);
+//			print(pMids[i]);
+		}
+    	
+//    	System.out.println(res);
+    	
+        return res;
     }
 }
