@@ -19,7 +19,6 @@ class UserSolution_삼국지게임 {
 	 * 
 	 */
 	
-	
 	class Monarch{
 		Monarch parent; // 동맹관계
 		List<Monarch> childs;
@@ -112,16 +111,8 @@ class UserSolution_삼국지게임 {
     	
     	Monarch pA = find(A);
     	Monarch pB = find(B);
-    	if(A == B) {
-    		return -1;
-    	}else{
-    		if(pAA == pBA) {
-        		return -2;
-    		}else {
-	        	pB.parent = pA;
-	            return 1;
-    		}
-    	}
+    	
+    	return -1;
     }
     int attack(char mMonarchA[], char mMonarchB[], char mGeneral[])
     {
@@ -163,9 +154,6 @@ class UserSolution_삼국지게임 {
     	 * 
     	 */
     	
-    	if() {
-    		
-    	}
     	
     	
         return -1;
