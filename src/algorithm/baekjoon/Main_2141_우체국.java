@@ -1,16 +1,24 @@
 package algorithm.baekjoon;
 
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class Main_2141_우체국{
 	
-	static class Town{
+	static class Town implements Comparable<Town>{
 		long X, A;
 
 		public Town(long x, long a) {
 			X = x;
 			A = a;
+		}
+
+		@Override
+		public int compareTo(Town o) {
+			return (int) (this.X-o.X);
 		}
 	}
 
@@ -41,10 +49,10 @@ public class Main_2141_우체국{
 			total += A;
 		}
 		
-		Arrays.sort(towns,(a,b)->((int)(a.X-b.X)));
+		Arrays.sort(towns);
 
 		long acc = 0;
-		for (int i = 0; i < N-1; i++) {
+		for (int i = 0; i < N; i++) {
 			acc += towns[i].A;
 			long diff = acc + acc - total; // acc - (total - acc);
 
@@ -53,7 +61,6 @@ public class Main_2141_우체국{
 				return;
 			}
 		}
-		System.out.println(towns[N-1].X);
 	}
 
 }

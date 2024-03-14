@@ -6,56 +6,17 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class Main_1943_동전_분배{
-	
-	static class Coin implements Comparable<Coin>{
-		int num;
-		int cnt;
-		
-		public Coin(int num, int cnt) {
-			this.num = num;
-			this.cnt = cnt;
-		}
+public class Main_1943_동전_분배 {
 
-		@Override
-		public int compareTo(Coin o) {
-			// TODO Auto-generated method stub
-			return this.num - o.num;
-		}
-	}
-	
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
+		StringTokenizer tokens;
+		boolean[] checked = new boolean[100_001];
 		for (int i = 0; i < 3; i++) {
 			int N = Integer.parseInt(br.readLine());
 			
-			Coin[] coins = new Coin[N];
-			
-			int sum = 0;
-			for (int j = 0; j < N; j++) {
-				StringTokenizer tokens = new StringTokenizer(br.readLine());
-				
-				int num = Integer.parseInt(tokens.nextToken());
-				int cnt = Integer.parseInt(tokens.nextToken());	
-
-				coins[j] = new Coin(num, cnt);
-				
-				sum += num * cnt;
-			}
-			
-			if(sum % 2 == 1) {
-				System.out.println(0);
-				continue;
-			}
-			
-			int halfSum = sum / 2;
-
 			/* 
-			 * 7 7 7
-			 * 5 5 5
-			 * 3 3
-			 * 
 			 * 두 사람이 S원을 가져야 한다면
 			 * 
 			 * i 동전의 개수가 C[i]일 때
@@ -75,36 +36,37 @@ public class Main_1943_동전_분배{
 			 * 0 7 14 21
 			 * 
 			 * 0 5 7 12 14 19 21 ---
-			 * 
 			 * 0 5 7 10 12 14 16 19 
-			 * 
-			 * 남은 동전의 합이 목표에 도달하지 못하면 불가능한 경우!
-			 * 
 			 */
-
-			boolean[] checked = new boolean[halfSum+1];
 			
+			Arrays.fill(checked, false);
 			checked[0] = true;
 			
 			int lastNum = 0;
-			
-			int[] dp = new int[halfSum+1];
 			for (int j = 0; j < N; j++) {
-				Arrays.fill(dp, 0);
-				int num = coins[j].num;
-				for (int k = 0; k < coins[j].cnt; k++) {
-					
-					
-					
+				tokens = new StringTokenizer(br.readLine());
+				
+				int num = Integer.parseInt(tokens.nextToken());
+				int cnt = Integer.parseInt(tokens.nextToken());
+				
+				for (int k = lastNum; k >= 0; k--) {
+					if(!checked[k]) continue;
+
+					int alpha = num;
+					for (int l = 0; l < cnt; l++) {
+						if(checked[k+alpha]) break;
+						checked[k+alpha] = true;
+						alpha += num;
+					}
 				}
+				lastNum += num*cnt;
 			}
 			
-			if(checked[halfSum]) {
+			if(lastNum % 2 == 0 && checked[lastNum / 2]) {
 				System.out.println(1);
 			}else {
 				System.out.println(0);
 			}
 		}
-
 	}
 }
