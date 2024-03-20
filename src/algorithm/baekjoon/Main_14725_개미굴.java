@@ -38,12 +38,11 @@ public class Main_14725_개미굴{
 	}
 
 	public static void initPrefix() {
-		prefixes = new String[16];		
+		prefixes = new String[16];	
+		String prefix = "";
 		for (int iter = 0; iter < 16; iter++) {
-			prefixes[iter] = "";
-			for (int i = 0; i < iter; i++) {
-				prefixes[iter] += "--";
-			}
+			prefixes[iter] = prefix;
+			prefix+="--";
 		}
 	}
 	
