@@ -3,7 +3,7 @@ package algorithm.baekjoon;
 import java.util.*;
 import java.io.*;
 
-public class Main_1774{
+public class Main_1774_우주신{
 	static class Coord{
 		int x,y;
 
