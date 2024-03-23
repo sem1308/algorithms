@@ -10,6 +10,7 @@ public class Main_14502_연구소
 	static int answer;
 	static int numBlanks;
 	static int numVirus;
+	static boolean[][] visited;
 	
 	public static void insfect(int x, int y, boolean[][] visited) {
 		for (int i = 0; i < dirs.length; i++) {
@@ -25,7 +26,9 @@ public class Main_14502_연구소
 	
 	public static void comb(int x, int y, int cnt) {
 		if(cnt == 3) {
-			boolean[][] visited = new boolean[N][M];
+			for (int i = 0; i < N; i++) {
+				Arrays.fill(visited[i], false);
+			}
 			numVirus = 0;
 			for (int i = 0; i < N; i++) {
 				for (int j = 0; j < M; j++) {
@@ -81,6 +84,7 @@ public class Main_14502_연구소
 			}
 		}
 		
+		visited = new boolean[N][M];
 		answer = 0;
 		comb(0,-1,0);
 		
