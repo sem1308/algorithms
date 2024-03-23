@@ -49,7 +49,7 @@ public class Main_1326{
 					visited[i] = true;
 					q.add(new int[]{i,cnt+1});
 				}
-			}			
+			}
 			for(int i=idx-num; i >= 1; i-=num) {
 				if(!visited[i]) {
 					visited[i] = true;
