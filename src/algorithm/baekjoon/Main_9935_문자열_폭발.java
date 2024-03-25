@@ -1,4 +1,4 @@
-package baekjoon;
+package algorithm.baekjoon;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.Stack;
 
-public class Main_9935 {
+public class Main_9935_문자열_폭발 {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
