@@ -1,9 +1,6 @@
 package algorithm.baekjoon;
 
 import java.util.*;
-
-import algorithm.baekjoon.Main_1504_특정한_최단_경로.Edge;
-
 import java.io.*;
 
 public class Main_1865_웜홀{
@@ -57,11 +54,12 @@ public class Main_1865_웜홀{
 				int E = Integer.parseInt(tokens.nextToken());
 				int T = Integer.parseInt(tokens.nextToken()); 
 
-				dp[S][E] = Math.min(dp[S][E], T);
+				dp[S][E] = Math.min(dp[S][E], -T);
 			}
 			
 			for (int i = 1; i <= N; i++) {
 				for (int j = 1; j <= N; j++) {
+					if(j == i) continue;
 					for (int k = 1; k <= N; k++) {
 						if(k == j) continue;
 						dp[i][k] = Math.min(dp[i][k], dp[i][j]+dp[j][k]);
@@ -69,7 +67,14 @@ public class Main_1865_웜홀{
 				}
 			}
 			
-			
+			boolean isValid = false;
+			for (int i = 1; i <= N; i++) {
+				if(dp[i][i] < 0) {
+					isValid = true;
+					break;
+				}
+			}
+			sb.append(isValid ? "YES\n" : "NO\n");
 		}
 		
 		System.out.println(sb);
