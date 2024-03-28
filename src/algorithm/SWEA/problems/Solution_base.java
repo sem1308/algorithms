@@ -3,6 +3,7 @@ package algorithm.SWEA.problems;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Solution_base
 {
@@ -12,9 +13,10 @@ public class Solution_base
         int T;
         T=Integer.parseInt(br.readLine());
         
+        StringTokenizer tokens;
         
-        
-        for (int t = 0; t < T; t++) {
+        StringBuilder sb = new StringBuilder();
+        for (int t = 1; t <= T; t++) {
 			
 		}
 

@@ -3,7 +3,7 @@ package algorithm.baekjoon;
 import java.util.*;
 import java.io.*;
 
-public class Main_14267{
+public class Main_14267_회사문화1{
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
