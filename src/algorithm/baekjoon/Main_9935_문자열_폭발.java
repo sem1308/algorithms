@@ -15,15 +15,16 @@ public class Main_9935_문자열_폭발 {
         String boomStr = br.readLine();
 
         int len = str.length();
-        int boomLen = boomStr.length();
+        int lastBoomIdx = boomStr.length()-1;
 
         Stack<Character> words = new Stack<>();
         Stack<Character> temp = new Stack<>();
 
         for (int i = 0; i < len; i++) {
             words.add(str.charAt(i));
-            int idx = boomLen-1;
-            while(idx >= 0 && words.peek() == boomStr.charAt(idx--)){
+            int idx = lastBoomIdx;
+            while(!words.isEmpty() && idx >= 0 && words.peek() == boomStr.charAt(idx)){
+            	idx--;
                 temp.push(words.pop());
             }
             if(idx == -1){
