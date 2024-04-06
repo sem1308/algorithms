@@ -3,17 +3,16 @@ package algorithm.baekjoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
+import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main_1766_문제집{
 	
 	static int N, M;
 	static int[] degrees;
-	static List<Integer> problems;
+	static PriorityQueue<Integer> problems;
 	static List<Integer>[] nextProblems;
 	
 	public static void main(String[] args) throws IOException {
@@ -23,16 +22,26 @@ public class Main_1766_문제집{
 		
 		tokens = new StringTokenizer(br.readLine());
 		
+		/*
+		 * 3->5->1
+		 * 2->4
+		 * 
+		 * 4->2
+		 * 3->1
+		 * 
+		 * degree가 0인 것들 중 가장 작은 값 넣기
+		 * 
+		 */
+		
 		N = Integer.parseInt(tokens.nextToken());
 		M = Integer.parseInt(tokens.nextToken());
 		
 		nextProblems = new ArrayList[N+1];
 		degrees = new int[N+1];
 		
-		problems = new ArrayList<>();
+		problems = new PriorityQueue<>();
 		for (int i = 1; i <= N; i++) {
 			nextProblems[i] = new ArrayList<>();
-			problems.add(i);
 		}
 		
 		for (int i = 0; i < M; i++) {
@@ -43,23 +52,23 @@ public class Main_1766_문제집{
 			nextProblems[A].add(B);
 		}
 		
-		StringBuilder sb = new StringBuilder();
-		Queue<Integer> doProbs = new ArrayDeque<>();
-		while(true) {
-			for(int i = 1; i<=N; i++) {
-				if(degrees[i] == 0) {
-					degrees[i] = -1;
-					sb.append(i).append(" ");
-					doProbs.add(i);					
-				}
+		for(int i = 1; i<=N; i++) {
+			if(degrees[i] == 0) {
+				degrees[i] = -1;
+				problems.add(i);				
 			}
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		while(!problems.isEmpty()) {
+
+			int problem = problems.poll();
 			
-			if(doProbs.isEmpty()) break;
+			sb.append(problem).append(" ");
 			
-			while(!doProbs.isEmpty()) {
-				int problem = doProbs.poll();
-				for (int p : nextProblems[problem]) {
-					degrees[p]--;
+			for (int p : nextProblems[problem]) {
+				if(--degrees[p] == 0) {
+					problems.add(p);
 				}
 			}
 		}
