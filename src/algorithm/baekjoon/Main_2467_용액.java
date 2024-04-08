@@ -31,20 +31,18 @@ public class Main_2467_용액 {
         int minVal = Integer.MAX_VALUE;
         int stNum = nums[st];
         int edNum = nums[ed];
-        int val = Math.abs(nums[st] + nums[ed]);
         while(st < ed){
-            if(minVal > val){
-                minVal = val;
+            int val = nums[st] + nums[ed];
+            int valAbs = Math.abs(val);
+            if(minVal > valAbs){
+                minVal = valAbs;
                 stNum = nums[st];
                 edNum = nums[ed];
             }
-            int valNext = Math.abs(nums[st] + nums[ed-1]);
-            int diff = valNext - val;
-            if(diff < 0){
-                val = valNext;
+            if(val >= 0){
                 ed--;
             }else{
-                val = Math.abs(nums[++st] + nums[ed]);
+            	st++;
             }
         }
 

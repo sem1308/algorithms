@@ -77,19 +77,26 @@ public class Main_2568_전깃줄2{
 			}
 		}
 		
-		int[] result = new int[maxK];
+		boolean[] connected = new boolean[500_001];
 		int lastOrder = N;
-		for (int i = 0; i < maxK; i++) {
-			int n = 0;
+		for (int i = maxK-1; i >= 0; i--) {
+			Num n = null;
 			for(Num num : lineList[i]) {
 				if(num.order > lastOrder) break;
-				n = num.num;
+				n = num;
 			}
-			result[i] = n;
+			lastOrder = n.order;
+			connected[n.num] = true;
 		}
 		
 		System.out.println(N-maxK);
-		
-		System.out.println(Arrays.toString(result));
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < N; i++) {
+			Line line = lines[i];
+			if(!connected[line.from]) {
+				sb.append(line.from).append("\n");
+			}
+		}
+		System.out.println(sb);
 	}
 }
