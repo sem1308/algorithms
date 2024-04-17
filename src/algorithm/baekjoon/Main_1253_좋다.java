@@ -1,4 +1,4 @@
-package baekjoon;
+package algorithm.baekjoon;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,22 +34,28 @@ public class Main_1253_좋다 {
         Arrays.sort(nums);
 
         int answer = 0;
-        boolean[] checked = new boolean[N];
+        
         for (int i = 0; i < N; i++) {
-            for (int j = i+1; j < N; j++) {
-                int jCount = numsCount.get(nums[j]);
-
-                if(nums[i] == 0 && ((nums[j] == 0 && jCount < 3) || jCount < 2)) continue;
-
-                int sum = nums[i] + nums[j];
-                int k = Arrays.binarySearch(nums,sum);
-                if(k >= 0 && !checked[k]){
-                    checked[k] = true;
-                    answer += numsCount.get(sum);
-                }
-            }
-        }
-
+        	// i번째 수를 만들 수 있는지 이분 탐색으로 확인
+        	int left = 0;
+        	int right = N;
+        	
+        	while(left < right) {
+        		int mid = (left + right) / 2;
+        		
+        		int sum = nums[left] + nums[right];
+        		
+        		if(sum == nums[i]) {
+        			answer++;       			
+        			break;
+        		}else if(sum > nums[i]) {
+        			right = mid;
+        		}else{
+        			left = mid+1;        			
+        		}
+        	}
+        }        
+        
         System.out.println(answer);
     }
 }
