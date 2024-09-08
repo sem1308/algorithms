@@ -54,14 +54,9 @@ public class Main_32179_이분탐색의흔적 {
 		 *
 		 * t = {a_(1+[(1+N)/2])}
 		 *
-		 * 1 2 3 4 5
-		 *
 		 * 범위가 줄어들 수록 줄어드는 구간에 있는 경우의 수 곱함
 		 * [s,e] => a_(s + [(e-s)/2]) 물어봄
 		 * - down => (a_e - a_(s + [(e-s)/2] + 1) + 1)C(e - (s + [(e-s)/2]))
-		 *
-		 * 1 2 3 4 5 6 7 8
-		 *
 		 */
 
 		tokens = new StringTokenizer(br.readLine());
